@@ -10,17 +10,18 @@ import { createConfigFiles } from "./create-config-files";
 import { updatePackageFile } from "./update-package-file";
 
 export type MainActionParams = {
-  name: Argument<"string", true>;
+  projectName: Argument<"string", true>;
+  authorName: Argument<"string", false>;
   packageManager: Argument<"string", true>;
   cwd: Argument<"string", false>;
 };
 
 export const mainAction = async (params: MainActionParams) => {
-  const { name, cwd, packageManager } = params;
+  const { projectName, authorName, cwd, packageManager } = params;
 
   const rootDir = cwd.value ?? process.cwd();
 
-  const projectDir = path.resolve(rootDir, name.value);
+  const projectDir = path.resolve(rootDir, projectName.value);
 
   const srcDir = path.resolve(projectDir, "src");
   const distDir = path.resolve(projectDir, "dist");
@@ -36,14 +37,16 @@ export const mainAction = async (params: MainActionParams) => {
 
   const cwdFiles = await fs.readdir(rootDir);
 
-  if (cwdFiles.includes(name.value)) {
-    console.error(`Directory with the name "${name.value}" already exists.`);
+  if (cwdFiles.includes(projectName.value)) {
+    console.error(
+      `Directory with the name "${projectName.value}" already exists.`
+    );
     process.exit(-1);
   }
 
   console.log(
     chalk.greenBright("Generating: "),
-    chalk.yellowBright(name.value),
+    chalk.yellowBright(projectName.value),
     " project files"
   );
 
@@ -55,7 +58,7 @@ export const mainAction = async (params: MainActionParams) => {
     fs.mkdir(vscodeDir),
     fs.mkdir(testsDir),
     fs.mkdir(mocksDir),
-    createConfigFiles(projectDir),
+    createConfigFiles(projectDir, authorName.value),
   ]);
 
   await fs.writeFile(indexFile, "");
@@ -68,7 +71,7 @@ export const mainAction = async (params: MainActionParams) => {
   await Git.init(projectDir);
 
   await Promise.all([
-    updatePackageFile(name.value, projectDir),
+    updatePackageFile(projectName.value, projectDir),
     configureHusky(PM, projectDir),
   ]);
 

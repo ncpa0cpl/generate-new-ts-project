@@ -24,3 +24,10 @@ export const OutputDir = Argument.define({
   dataType: "string",
   description: "Path to the directory in which the Project should be located.",
 });
+
+export const AuthorName = Argument.define({
+  flagChar: "-a",
+  keyword: "--author",
+  dataType: "string",
+  description: "Name of the author.",
+});

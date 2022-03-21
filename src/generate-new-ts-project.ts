@@ -1,5 +1,10 @@
 import clify from "clify.js";
-import { OutputDir, PackageManager, ProjectName } from "./arguments";
+import {
+  AuthorName,
+  OutputDir,
+  PackageManager,
+  ProjectName,
+} from "./arguments";
 import { mainAction } from "./main-action/main-action";
 
 const SCRIPT_NAME = "generate-new-project";
@@ -11,16 +16,18 @@ clify.configure((main) => {
   main.setDescription(SCRIPT_DESCRIPTION);
 
   main.setMainAction(() => {
-    const name = new ProjectName();
-    const packageManager = new PackageManager();
     const cwd = new OutputDir();
+    const packageManager = new PackageManager();
+    const projectName = new ProjectName();
+    const authorName = new AuthorName();
 
     return {
       run() {
         mainAction({
           cwd,
           packageManager,
-          name,
+          projectName,
+          authorName,
         });
       },
     };
