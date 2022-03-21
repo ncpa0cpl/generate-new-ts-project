@@ -17,12 +17,16 @@ export const Yarn: PackageManager = class Yarn {
     Yarn.cwd = cwd;
   }
 
-  static install(pkg: string, dev = true) {
+  static install(pkg: string) {
     const args: string[] = [];
 
-    if (dev) {
-      args.push("-D");
-    }
+    args.push(pkg);
+
+    return Yarn.run("add", ...args);
+  }
+
+  static installDev(pkg: string) {
+    const args: string[] = ["-D"];
 
     args.push(pkg);
 

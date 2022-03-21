@@ -20,12 +20,16 @@ export const Npm: PackageManager = class Npm {
     Npm.cwd = cwd;
   }
 
-  static install(pkg: string, dev = true) {
+  static install(pkg: string) {
     const args: string[] = ["npm", "install"];
 
-    if (dev) {
-      args.push("-D");
-    }
+    args.push(pkg);
+
+    return Npm.execute(parseArgs(args));
+  }
+
+  static installDev(pkg: string) {
+    const args: string[] = ["npm", "install", "-D"];
 
     args.push(pkg);
 

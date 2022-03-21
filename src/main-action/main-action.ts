@@ -5,6 +5,7 @@ import path from "path";
 import { getPackageManager } from "../bindings/get-package-manager";
 import { Git } from "../bindings/git";
 import { configureHusky } from "./configure-husky";
+import { DEV_DEPS } from "./constants/dev-dependencies";
 import { createConfigFiles } from "./create-config-files";
 import { updatePackageFile } from "./update-package-file";
 
@@ -13,21 +14,6 @@ export type MainActionParams = {
   packageManager: Argument<"string", true>;
   cwd: Argument<"string", false>;
 };
-
-const deps = [
-  "typescript",
-  "eslint",
-  "prettier",
-  "eslint-config-prettier",
-  "eslint-plugin-prettier",
-  "@typescript-eslint/eslint-plugin",
-  "@typescript-eslint/parser",
-  "prettier-plugin-jsdoc",
-  "jest",
-  "ts-jest",
-  "@types/jest",
-  "husky",
-];
 
 export const mainAction = async (params: MainActionParams) => {
   const { name, cwd, packageManager } = params;
@@ -55,7 +41,11 @@ export const mainAction = async (params: MainActionParams) => {
     process.exit(-1);
   }
 
-  console.log(chalk.greenBright("Generating: "), `${name.value} project files`);
+  console.log(
+    chalk.greenBright("Generating: "),
+    chalk.yellowBright(name.value),
+    " project files"
+  );
 
   await fs.mkdir(projectDir);
 
@@ -70,9 +60,9 @@ export const mainAction = async (params: MainActionParams) => {
 
   await fs.writeFile(indexFile, "");
 
-  for (const dependency of deps) {
+  for (const dependency of DEV_DEPS) {
     console.log(chalk.greenBright("Installing dependency: "), `${dependency}`);
-    await PM.install(dependency, true);
+    await PM.installDev(dependency);
   }
 
   await Git.init(projectDir);

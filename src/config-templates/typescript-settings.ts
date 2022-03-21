@@ -14,4 +14,5 @@ export const TYPESCRIPT_SETTINGS = {
     skipLibCheck: true,
     forceConsistentCasingInFileNames: true,
   },
+  include: ["src/**/*"],
 };
