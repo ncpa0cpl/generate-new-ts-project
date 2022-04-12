@@ -25,12 +25,16 @@ export const updatePackageFile = async (
     tsc: "tsc --noEmit",
     test: "jest --coverage",
   };
-
-  if (authorName) {
-    packageSettings["author"] = {
-      name: authorName,
-    };
-  }
+  packageSettings["keywords"] = [];
+  packageSettings["repository"] = {
+    url: "",
+  };
+  packageSettings["description"] = "";
+  packageSettings["license"] = "MIT";
+  packageSettings["author"] = {
+    name: authorName ?? "",
+    email: "",
+  };
 
   return await fs.writeFile(
     packageFile,

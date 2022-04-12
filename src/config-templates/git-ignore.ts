@@ -3,4 +3,5 @@ export const GIT_IGNORE = [
   "coverage",
   "dist",
   "yarn-error.log",
+  ".npmrc",
 ];

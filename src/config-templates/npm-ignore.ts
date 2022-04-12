@@ -3,6 +3,7 @@ export const NPM_IGNORE = [
   "__tests__",
   ".husky",
   ".vscode",
+  "coverage",
   "src",
   ".eslintignore",
   ".eslintrc.json",
