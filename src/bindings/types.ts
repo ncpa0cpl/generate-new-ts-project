@@ -1,4 +1,5 @@
 export type PackageManager = {
+  getName(): string;
   /** Changes the current working directory. */
   setCwd(cwd: string): void;
   /** Installs a dependency. */

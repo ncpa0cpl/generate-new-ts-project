@@ -4,7 +4,7 @@ import fs from "fs/promises";
 import path from "path";
 import { getPackageManager } from "../bindings/get-package-manager";
 import { Git } from "../bindings/git";
-import { configureHusky } from "./configure-husky";
+import { configureGitHookTasks } from "./configre-git-hook-tasks";
 import { DEV_DEPS } from "./constants/dev-dependencies";
 import { createConfigFiles } from "./create-config-files";
 import { updatePackageFile } from "./update-package-file";
@@ -58,7 +58,7 @@ export const mainAction = async (params: MainActionParams) => {
     fs.mkdir(vscodeDir),
     fs.mkdir(testsDir),
     fs.mkdir(mocksDir),
-    createConfigFiles(projectDir, authorName.value),
+    createConfigFiles(projectDir, PM.getName(), authorName.value),
   ]);
 
   await fs.writeFile(indexFile, "");
@@ -72,7 +72,7 @@ export const mainAction = async (params: MainActionParams) => {
 
   await Promise.all([
     updatePackageFile(projectName.value, projectDir),
-    configureHusky(PM, projectDir),
+    configureGitHookTasks(PM),
   ]);
 
   await Git.add();

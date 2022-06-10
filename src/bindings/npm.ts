@@ -5,6 +5,10 @@ import { parseArgs } from "./parse-args";
 import type { PackageManager } from "./types";
 
 export const Npm: PackageManager = class Npm {
+  static getName(): string {
+    return "npm";
+  }
+
   private static cwd: string = process.cwd();
 
   private static execute(command: string): Promise<void> {

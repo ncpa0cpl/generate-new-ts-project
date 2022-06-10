@@ -1,9 +1,31 @@
 export const JEST_SETTINGS = /** Js */ `/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
-  preset: "ts-jest",
   testRegex: ".*__tests__/.+(\\.test\\.(ts|js|tsx|jsx))$",
   transform: {
-    "^.+\\.(ts|tsx)$": "ts-jest",
+    "^.+\\.(js|jsx|ts|tsx)$": [
+      "@swc/jest",
+      {
+        jsc: {
+          keepClassNames: true,
+          parser: {
+            syntax: "typescript",
+            tsx: true,
+            decorators: true,
+            dynamicImport: false,
+          },
+          target: "es2020",
+          baseUrl: ".",
+          transform: {
+            legacyDecorator: true,
+            decoratorMetadata: true,
+          },
+        },
+        module: {
+          type: "es6",
+          strict: true,
+        },
+      }
+    ],
   },
   testEnvironment: "jsdom",
   roots: ["<rootDir>"],
@@ -26,5 +48,4 @@ module.exports = {
     "/.husky/",
     "/.vscode/",
   ],
-};
-`;
+};`;

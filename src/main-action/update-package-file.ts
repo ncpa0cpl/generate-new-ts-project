@@ -20,10 +20,13 @@ export const updatePackageFile = async (
   packageSettings["version"] = "1.0.0";
   packageSettings["main"] = "./dist/index.js";
   packageSettings["scripts"] = {
+    "fix:lint": "eslint --fix .",
+    "fix:prettier": "prettier -w ./src .",
+    "test:jest": "jest --coverage",
+    "test:lint": "eslint .",
+    "test:prettier": "prettier -c ./src && prettier -c ./__tests__",
+    "test:tsc": "tsc --noEmit",
     build: "tsc",
-    lint: "eslint .",
-    tsc: "tsc --noEmit",
-    test: "jest --coverage",
   };
   packageSettings["keywords"] = [];
   packageSettings["repository"] = {

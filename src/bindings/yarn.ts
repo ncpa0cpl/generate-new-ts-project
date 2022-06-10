@@ -2,6 +2,10 @@ import child_process from "child_process";
 import type { PackageManager } from "./types";
 
 export const Yarn: PackageManager = class Yarn {
+  static getName(): string {
+    return "yarn";
+  }
+
   private static cwd: string = process.cwd();
 
   private static async execute(command: string): Promise<void> {

@@ -3,6 +3,7 @@ import fs from "fs/promises";
 import path from "path";
 import { ESLINT_IGNORE } from "../config-templates/eslint-ignore";
 import { ESLINT_SETTINGS } from "../config-templates/eslint-settings";
+import { getGitHookTasksConfig } from "../config-templates/git-hook-tasks-config";
 import { GIT_IGNORE } from "../config-templates/git-ignore";
 import { JEST_SETTINGS } from "../config-templates/jest-settings";
 import { getLicense } from "../config-templates/license";
@@ -48,7 +49,21 @@ const createJestSettingsFile = (filePath: string) => {
   return fs.writeFile(filePath, JEST_SETTINGS);
 };
 
-export const createConfigFiles = (cwd: string, name?: string) => {
+const createGitHookTaskConfigFile = (
+  filePath: string,
+  packageManager: string
+) => {
+  return fs.writeFile(
+    filePath,
+    JSON.stringify(getGitHookTasksConfig(packageManager), null, 2)
+  );
+};
+
+export const createConfigFiles = (
+  cwd: string,
+  packageManager: string,
+  name?: string
+) => {
   console.log(chalk.greenBright("Generating: "), "config files");
 
   const eslintIgnoreFile = path.resolve(cwd, ConfFileNames.ESLINT_IGNORE);
@@ -60,6 +75,10 @@ export const createConfigFiles = (cwd: string, name?: string) => {
   const prettierSettingsFile = path.resolve(cwd, ConfFileNames.PRETTIER_RC);
   const tsSettingsFile = path.resolve(cwd, ConfFileNames.TS_CONFIG);
   const vsCodeSettingsFile = path.resolve(cwd, ConfFileNames.VS_CODE_SETTINGS);
+  const gitHookTaskConfigFile = path.resolve(
+    cwd,
+    ConfFileNames.GIT_HOOK_TASKS_CONFIG
+  );
 
   return Promise.all([
     createEslintIgnoreFile(eslintIgnoreFile),
@@ -71,5 +90,6 @@ export const createConfigFiles = (cwd: string, name?: string) => {
     createPrettierSettingsFile(prettierSettingsFile),
     createTSSettingsFile(tsSettingsFile),
     createVSCodeSettings(vsCodeSettingsFile),
+    createGitHookTaskConfigFile(gitHookTaskConfigFile, packageManager),
   ]);
 };
