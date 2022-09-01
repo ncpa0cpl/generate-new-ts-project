@@ -7,6 +7,7 @@ import { getGitHookTasksConfig } from "../config-templates/git-hook-tasks-config
 import { GIT_IGNORE } from "../config-templates/git-ignore";
 import { JEST_SETTINGS } from "../config-templates/jest-settings";
 import { getLicense } from "../config-templates/license";
+import { NPM_CONFIG } from "../config-templates/npm-config";
 import { NPM_IGNORE } from "../config-templates/npm-ignore";
 import { PRETTIER_SETTINGS } from "../config-templates/prettier-settings";
 import { TYPESCRIPT_SETTINGS } from "../config-templates/typescript-settings";
@@ -31,6 +32,10 @@ const createGitIgnoreFile = (filePath: string) => {
 
 const createNpmIgnoreFile = (filePath: string) => {
   return fs.writeFile(filePath, NPM_IGNORE.join("\n"));
+};
+
+const createNpmConfigFile = (filePath: string) => {
+  return fs.writeFile(filePath, NPM_CONFIG);
 };
 
 const createLicenseFile = (filePath: string, name?: string) => {
@@ -72,6 +77,7 @@ export const createConfigFiles = (
   const jestSettingsFile = path.resolve(cwd, ConfFileNames.JEST_CONFIG);
   const licenseFile = path.resolve(cwd, ConfFileNames.LICENSE);
   const npmIgnoreFile = path.resolve(cwd, ConfFileNames.NPM_IGNORE);
+  const npmConfigFile = path.resolve(cwd, ConfFileNames.NPM_CONFIG);
   const prettierSettingsFile = path.resolve(cwd, ConfFileNames.PRETTIER_RC);
   const tsSettingsFile = path.resolve(cwd, ConfFileNames.TS_CONFIG);
   const vsCodeSettingsFile = path.resolve(cwd, ConfFileNames.VS_CODE_SETTINGS);
@@ -87,6 +93,7 @@ export const createConfigFiles = (
     createJestSettingsFile(jestSettingsFile),
     createLicenseFile(licenseFile, name),
     createNpmIgnoreFile(npmIgnoreFile),
+    createNpmConfigFile(npmConfigFile),
     createPrettierSettingsFile(prettierSettingsFile),
     createTSSettingsFile(tsSettingsFile),
     createVSCodeSettings(vsCodeSettingsFile),

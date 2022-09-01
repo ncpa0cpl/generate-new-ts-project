@@ -6,6 +6,7 @@ export enum ConfFileNames {
   JEST_CONFIG = "jest.config.js",
   LICENSE = "LICENSE",
   NPM_IGNORE = ".npmignore",
+  NPM_CONFIG = ".npmrc",
   PACKAGE = "package.json",
   PRETTIER_RC = ".prettierrc.json",
   TS_CONFIG = "tsconfig.json",
