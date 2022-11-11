@@ -32,15 +32,6 @@ export const mainAction = async (params: MainActionParams) => {
 
   const indexFile = path.resolve(srcDir, "index.ts");
 
-  const PM = getPackageManager(packageManager.value);
-
-  PM.setCwd(projectDir);
-
-  if (params.yarnVersion.isSet)
-    await PM.changeVersion(params.yarnVersion.value!);
-
-  await PM.init();
-
   const cwdFiles = await fs.readdir(rootDir);
 
   if (cwdFiles.includes(projectName.value)) {
@@ -50,13 +41,22 @@ export const mainAction = async (params: MainActionParams) => {
     process.exit(-1);
   }
 
+  await fs.mkdir(projectDir);
+
+  const PM = getPackageManager(packageManager.value);
+
+  PM.setCwd(projectDir);
+
+  if (params.yarnVersion.isSet)
+    await PM.changeVersion(params.yarnVersion.value!);
+
+  await PM.init();
+
   console.log(
     chalk.greenBright("Generating: "),
     chalk.yellowBright(projectName.value),
     " project files"
   );
-
-  await fs.mkdir(projectDir);
 
   await Promise.all([
     fs.mkdir(srcDir),

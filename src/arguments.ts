@@ -13,7 +13,6 @@ export const ProjectName = Argument.define({
   flagChar: "-n",
   keyword: "--name",
   dataType: "string",
-  default: "my-project",
   require: true,
   description: "The name of the project.",
 });
