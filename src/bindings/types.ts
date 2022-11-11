@@ -1,5 +1,5 @@
 export type PackageManager = {
-  getName(): string;
+  getName(): "npm" | "yarn";
   /** Changes the current working directory. */
   setCwd(cwd: string): void;
   /** Installs a dependency. */

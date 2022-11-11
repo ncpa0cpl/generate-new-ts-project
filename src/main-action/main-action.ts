@@ -5,7 +5,7 @@ import path from "path";
 import { getPackageManager } from "../bindings/get-package-manager";
 import { Git } from "../bindings/git";
 import { configureGitHookTasks } from "./configre-git-hook-tasks";
-import { DEV_DEPS } from "./constants/dev-dependencies";
+import { Dependency, DEV_DEPS } from "./constants/dev-dependencies";
 import { createConfigFiles } from "./create-config-files";
 import { updatePackageFile } from "./update-package-file";
 
@@ -69,15 +69,20 @@ export const mainAction = async (params: MainActionParams) => {
 
   await fs.writeFile(indexFile, "");
 
+  Dependency.setPackageManagerType(PM.getName(), await PM.getVersion());
+
   for (const dependency of DEV_DEPS) {
-    console.log(chalk.greenBright("Installing dependency: "), `${dependency}`);
-    await PM.installDev(dependency);
+    console.log(
+      chalk.greenBright("Installing dependency: "),
+      `${dependency.getFriendlyName()}`
+    );
+    await PM.installDev(dependency.getInstallName());
   }
 
   await Git.init(projectDir);
 
   await Promise.all([
-    updatePackageFile(projectName.value, projectDir),
+    updatePackageFile(projectName.value, projectDir, params.authorName.value),
     configureGitHookTasks(PM),
   ]);
 
