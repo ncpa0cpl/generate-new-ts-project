@@ -31,3 +31,10 @@ export const AuthorName = Argument.define({
   dataType: "string",
   description: "Name of the author.",
 });
+
+export const YarnVersion = Argument.define({
+  flagChar: "-y",
+  keyword: "--yarn-version",
+  dataType: "string",
+  description: "Version of yarn to use.",
+});

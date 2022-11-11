@@ -11,4 +11,5 @@ export enum ConfFileNames {
   PRETTIER_RC = ".prettierrc.json",
   TS_CONFIG = "tsconfig.json",
   VS_CODE_SETTINGS = ".vscode/settings.json",
+  YARN_RC = ".yarnrc.yml",
 }

@@ -20,6 +20,18 @@ export const Npm: PackageManager = class Npm {
     });
   }
 
+  static async init() {
+    // no-op
+  }
+
+  static async changeVersion() {
+    // no-op
+  }
+
+  static async getVersion() {
+    return "";
+  }
+
   static setCwd(cwd: string) {
     Npm.cwd = cwd;
   }

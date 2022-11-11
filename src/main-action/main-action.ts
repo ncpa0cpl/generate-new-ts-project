@@ -14,6 +14,7 @@ export type MainActionParams = {
   authorName: Argument<"string", false>;
   packageManager: Argument<"string", true>;
   cwd: Argument<"string", false>;
+  yarnVersion: Argument<"string", false>;
 };
 
 export const mainAction = async (params: MainActionParams) => {
@@ -34,6 +35,11 @@ export const mainAction = async (params: MainActionParams) => {
   const PM = getPackageManager(packageManager.value);
 
   PM.setCwd(projectDir);
+
+  if (params.yarnVersion.isSet)
+    await PM.changeVersion(params.yarnVersion.value!);
+
+  await PM.init();
 
   const cwdFiles = await fs.readdir(rootDir);
 
@@ -58,7 +64,7 @@ export const mainAction = async (params: MainActionParams) => {
     fs.mkdir(vscodeDir),
     fs.mkdir(testsDir),
     fs.mkdir(mocksDir),
-    createConfigFiles(projectDir, PM.getName(), authorName.value),
+    createConfigFiles(projectDir, PM, authorName.value),
   ]);
 
   await fs.writeFile(indexFile, "");

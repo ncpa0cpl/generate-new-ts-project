@@ -4,6 +4,7 @@ import {
   OutputDir,
   PackageManager,
   ProjectName,
+  YarnVersion,
 } from "./arguments";
 import { mainAction } from "./main-action/main-action";
 
@@ -20,6 +21,7 @@ clify.configure((main) => {
     const packageManager = new PackageManager();
     const projectName = new ProjectName();
     const authorName = new AuthorName();
+    const yarnVersion = new YarnVersion();
 
     return {
       run() {
@@ -28,6 +30,7 @@ clify.configure((main) => {
           packageManager,
           projectName,
           authorName,
+          yarnVersion,
         });
       },
     };

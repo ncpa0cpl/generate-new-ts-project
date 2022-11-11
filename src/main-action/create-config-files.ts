@@ -1,6 +1,7 @@
 import chalk from "chalk";
 import fs from "fs/promises";
 import path from "path";
+import type { PackageManager } from "../bindings/types";
 import { ESLINT_IGNORE } from "../config-templates/eslint-ignore";
 import { ESLINT_SETTINGS } from "../config-templates/eslint-settings";
 import { getGitHookTasksConfig } from "../config-templates/git-hook-tasks-config";
@@ -12,6 +13,7 @@ import { NPM_IGNORE } from "../config-templates/npm-ignore";
 import { PRETTIER_SETTINGS } from "../config-templates/prettier-settings";
 import { TYPESCRIPT_SETTINGS } from "../config-templates/typescript-settings";
 import { VSCODE_SETTINGS } from "../config-templates/vscode-settings";
+import { getYarnRc } from "../config-templates/yarnrc";
 import { ConfFileNames } from "./constants/conf-file-names";
 
 const createEslintIgnoreFile = (filePath: string) => {
@@ -64,9 +66,13 @@ const createGitHookTaskConfigFile = (
   );
 };
 
-export const createConfigFiles = (
+const createYarnRcFile = (filePath: string) => {
+  return fs.writeFile(filePath, getYarnRc());
+};
+
+export const createConfigFiles = async (
   cwd: string,
-  packageManager: string,
+  packageManager: PackageManager,
   name?: string
 ) => {
   console.log(chalk.greenBright("Generating: "), "config files");
@@ -85,6 +91,9 @@ export const createConfigFiles = (
     cwd,
     ConfFileNames.GIT_HOOK_TASKS_CONFIG
   );
+  const yarnrcFile = path.resolve(cwd, ConfFileNames.YARN_RC);
+
+  const version = await packageManager.getVersion();
 
   return Promise.all([
     createEslintIgnoreFile(eslintIgnoreFile),
@@ -97,6 +106,12 @@ export const createConfigFiles = (
     createPrettierSettingsFile(prettierSettingsFile),
     createTSSettingsFile(tsSettingsFile),
     createVSCodeSettings(vsCodeSettingsFile),
-    createGitHookTaskConfigFile(gitHookTaskConfigFile, packageManager),
+    createGitHookTaskConfigFile(
+      gitHookTaskConfigFile,
+      packageManager.getName()
+    ),
+    packageManager.getName() === "yarn" && version.startsWith("3")
+      ? createYarnRcFile(yarnrcFile)
+      : Promise.resolve(),
   ]);
 };

@@ -6,19 +6,41 @@ export const Yarn: PackageManager = class Yarn {
     return "yarn";
   }
 
+  private static version?: string;
   private static cwd: string = process.cwd();
 
-  private static async execute(command: string): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      child_process.exec(command, { cwd: Yarn.cwd }, (err) => {
+  private static async execute(command: string): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      child_process.exec(command, { cwd: Yarn.cwd }, (err, stdout) => {
         if (err) return reject(err);
-        return resolve();
+        return resolve(stdout);
       });
     });
   }
 
+  static async getVersion(): Promise<string> {
+    if (Yarn.version) return Yarn.version;
+
+    this.version = await Yarn.run("-v");
+    return this.version;
+  }
+
+  static async changeVersion(version: string) {
+    await Yarn.run("set", "version", version);
+    this.version = undefined;
+    await Yarn.getVersion();
+  }
+
   static setCwd(cwd: string) {
     Yarn.cwd = cwd;
+  }
+
+  static async init() {
+    const version = await Yarn.getVersion();
+
+    if (version.startsWith("3")) {
+      return Yarn.run("init");
+    }
   }
 
   static install(pkg: string) {
