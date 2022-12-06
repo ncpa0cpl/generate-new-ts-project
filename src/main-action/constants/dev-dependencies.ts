@@ -25,6 +25,9 @@ export class Dependency {
   }
 
   private getNameForNpmRegister() {
+    if (!this.options.version || this.options.version === "latest")
+      return this.name;
+
     return `${this.name}@${this.options.version}`;
   }
 
