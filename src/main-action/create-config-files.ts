@@ -1,6 +1,6 @@
-import chalk from "chalk";
 import fs from "fs/promises";
 import path from "path";
+import { html, Output } from "termx-markup";
 import type { PackageManager } from "../bindings/types";
 import { ESLINT_IGNORE } from "../config-templates/eslint-ignore";
 import { ESLINT_SETTINGS } from "../config-templates/eslint-settings";
@@ -75,7 +75,12 @@ export const createConfigFiles = async (
   packageManager: PackageManager,
   name?: string
 ) => {
-  console.log(chalk.greenBright("Generating: "), "config files");
+  Output.print(
+    html`
+      <span color="lightGreen">Generating:</span>
+      <pre> config files</pre>
+    `
+  );
 
   const eslintIgnoreFile = path.resolve(cwd, ConfFileNames.ESLINT_IGNORE);
   const eslintSettingsFile = path.resolve(cwd, ConfFileNames.ESLINT_RC);

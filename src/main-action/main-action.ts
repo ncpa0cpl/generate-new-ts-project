@@ -1,7 +1,7 @@
-import chalk from "chalk";
 import type { Argument } from "clify.js";
 import fs from "fs/promises";
 import path from "path";
+import { html, Output } from "termx-markup";
 import { getPackageManager } from "../bindings/get-package-manager";
 import { Git } from "../bindings/git";
 import { configureGitHookTasks } from "./configre-git-hook-tasks";
@@ -47,16 +47,16 @@ export const mainAction = async (params: MainActionParams) => {
 
   PM.setCwd(projectDir);
 
-  if (params.yarnVersion.isSet)
-    await PM.changeVersion(params.yarnVersion.value!);
+  if (PM.getName() === "yarn")
+    await PM.changeVersion(params.yarnVersion.value ?? "classic");
 
   await PM.init();
 
-  console.log(
-    chalk.greenBright("Generating: "),
-    chalk.yellowBright(projectName.value),
-    " project files"
-  );
+  Output.print(html`
+    <span color="lightGreen">Generating:</span>
+    <pre color="lightYellow"> ${projectName.value} </pre>
+    <span>project files</span>
+  `);
 
   await Promise.all([
     fs.mkdir(srcDir),
@@ -72,10 +72,10 @@ export const mainAction = async (params: MainActionParams) => {
   Dependency.setPackageManagerType(PM.getName(), await PM.getVersion());
 
   for (const dependency of DEV_DEPS) {
-    console.log(
-      chalk.greenBright("Installing dependency: "),
-      `${dependency.getFriendlyName()}`
-    );
+    Output.print(html`
+      <span color="lightGreen">Installing dependency:</span>
+      <pre> ${dependency.getFriendlyName()}</pre>
+    `);
     await PM.installDev(dependency.getInstallName());
   }
 

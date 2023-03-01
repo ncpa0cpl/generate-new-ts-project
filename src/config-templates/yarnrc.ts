@@ -1,3 +1,13 @@
 export const getYarnRc = () => {
-  return "nodeLinker: node-modules\nenableGlobalCache: true\n";
+  return (
+    `
+enableGlobalCache: true
+
+nodeLinker: node-modules
+
+enableMessageNames: false
+
+enableProgressBars: true
+`.trim() + "\n"
+  );
 };

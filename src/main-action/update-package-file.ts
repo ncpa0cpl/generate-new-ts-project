@@ -1,6 +1,6 @@
-import chalk from "chalk";
 import fs from "fs/promises";
 import path from "path";
+import { html, Output } from "termx-markup";
 import { ConfFileNames } from "./constants/conf-file-names";
 
 export const updatePackageFile = async (
@@ -8,7 +8,10 @@ export const updatePackageFile = async (
   dir: string,
   authorName?: string
 ) => {
-  console.log(chalk.greenBright("Generating: "), "package file");
+  Output.print(html`
+    <span color="lightGreen">Generating:</span>
+    <pre> package.json file</pre>
+  `);
 
   const packageFile = path.resolve(dir, ConfFileNames.PACKAGE);
 

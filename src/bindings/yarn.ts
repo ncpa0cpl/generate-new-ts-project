@@ -2,7 +2,7 @@ import child_process from "child_process";
 import type { PackageManager } from "./types";
 
 export const Yarn: PackageManager = class Yarn {
-  static getName(): string {
+  static getName(): "yarn" {
     return "yarn";
   }
 

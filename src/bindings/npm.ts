@@ -5,7 +5,7 @@ import { parseArgs } from "./parse-args";
 import type { PackageManager } from "./types";
 
 export const Npm: PackageManager = class Npm {
-  static getName(): string {
+  static getName(): "npm" {
     return "npm";
   }
 

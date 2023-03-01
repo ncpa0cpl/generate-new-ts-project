@@ -13,7 +13,7 @@ module.exports = {
             decorators: true,
             dynamicImport: false,
           },
-          target: "es2020",
+          target: "es2022",
           baseUrl: ".",
           transform: {
             legacyDecorator: true,
@@ -27,7 +27,6 @@ module.exports = {
       }
     ],
   },
-  testEnvironment: "jsdom",
   roots: ["<rootDir>"],
   collectCoverageFrom: ["src/**/*.(ts|js|tsx|jsx)"],
   coverageReporters: ["html", "text"],
