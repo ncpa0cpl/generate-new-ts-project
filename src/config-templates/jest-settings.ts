@@ -1,31 +1,17 @@
-export const JEST_SETTINGS = /** Js */ `/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
-module.exports = {
+export const JEST_SETTINGS =
+  /** Js */ `
+const fs = require("fs");
+const path = require("path");
+
+const swcConfig = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, ".swcrc"), "utf-8")
+);
+
+/** @type {import("jest").Config} */
+const config = {
   testRegex: ".*__tests__/.+(\\.test\\.(ts|js|tsx|jsx))$",
   transform: {
-    "^.+\\.(js|jsx|ts|tsx)$": [
-      "@swc/jest",
-      {
-        jsc: {
-          keepClassNames: true,
-          parser: {
-            syntax: "typescript",
-            tsx: true,
-            decorators: true,
-            dynamicImport: false,
-          },
-          target: "es2022",
-          baseUrl: ".",
-          transform: {
-            legacyDecorator: true,
-            decoratorMetadata: true,
-          },
-        },
-        module: {
-          type: "es6",
-          strict: true,
-        },
-      }
-    ],
+    "^.+\\.(js|jsx|ts|tsx)$": ["@swc/jest", swcConfig],
   },
   roots: ["<rootDir>"],
   collectCoverageFrom: ["src/**/*.(ts|js|tsx|jsx)"],
@@ -47,4 +33,7 @@ module.exports = {
     "/.husky/",
     "/.vscode/",
   ],
-};`;
+};
+
+module.exports = config;
+`.trim() + "\n";

@@ -25,8 +25,8 @@ export const updatePackageFile = async (
   packageSettings["scripts"] = {
     "fix:lint": "eslint --fix .",
     "fix:prettier": "prettier -w ./src .",
-    "test:jest": "jest --coverage",
-    "test:lint": "eslint .",
+    "test:unit": "jest --coverage",
+    "test:lint": "eslint ./src && eslint ./__tests__",
     "test:prettier": "prettier -c ./src && prettier -c ./__tests__",
     "test:tsc": "tsc --noEmit",
     build: "tsc",

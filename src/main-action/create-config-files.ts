@@ -11,6 +11,7 @@ import { getLicense } from "../config-templates/license";
 import { NPM_CONFIG } from "../config-templates/npm-config";
 import { NPM_IGNORE } from "../config-templates/npm-ignore";
 import { PRETTIER_SETTINGS } from "../config-templates/prettier-settings";
+import { SWC_CONFIG } from "../config-templates/swc-config";
 import { TYPESCRIPT_SETTINGS } from "../config-templates/typescript-settings";
 import { VSCODE_SETTINGS } from "../config-templates/vscode-settings";
 import { getYarnRc } from "../config-templates/yarnrc";
@@ -52,6 +53,10 @@ const createVSCodeSettings = (filePath: string) => {
   return fs.writeFile(filePath, JSON.stringify(VSCODE_SETTINGS, null, 2));
 };
 
+const createSwcSettingsFile = (filePath: string) => {
+  return fs.writeFile(filePath, JSON.stringify(SWC_CONFIG, null, 2));
+};
+
 const createJestSettingsFile = (filePath: string) => {
   return fs.writeFile(filePath, JEST_SETTINGS);
 };
@@ -85,6 +90,7 @@ export const createConfigFiles = async (
   const eslintIgnoreFile = path.resolve(cwd, ConfFileNames.ESLINT_IGNORE);
   const eslintSettingsFile = path.resolve(cwd, ConfFileNames.ESLINT_RC);
   const gitIgnoreFile = path.resolve(cwd, ConfFileNames.GIT_IGNORE);
+  const swcConfigFile = path.resolve(cwd, ConfFileNames.SWC_CONFIG);
   const jestSettingsFile = path.resolve(cwd, ConfFileNames.JEST_CONFIG);
   const licenseFile = path.resolve(cwd, ConfFileNames.LICENSE);
   const npmIgnoreFile = path.resolve(cwd, ConfFileNames.NPM_IGNORE);
@@ -104,6 +110,7 @@ export const createConfigFiles = async (
     createEslintIgnoreFile(eslintIgnoreFile),
     createEslintSettingsFile(eslintSettingsFile),
     createGitIgnoreFile(gitIgnoreFile),
+    createSwcSettingsFile(swcConfigFile),
     createJestSettingsFile(jestSettingsFile),
     createLicenseFile(licenseFile, name),
     createNpmIgnoreFile(npmIgnoreFile),

@@ -25,7 +25,7 @@ clify.configure((main) => {
 
     return {
       run() {
-        mainAction({
+        return mainAction({
           cwd,
           packageManager,
           projectName,

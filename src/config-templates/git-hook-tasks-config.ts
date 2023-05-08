@@ -16,9 +16,8 @@ export const getGitHookTasksConfig = (packageManager: string) => ({
         script: "test:prettier",
       },
       {
-        mustRunAlone: true,
         name: "Jest Tests",
-        script: "test:jest",
+        script: "test:unit",
       },
     ],
     "pre-commit": [],

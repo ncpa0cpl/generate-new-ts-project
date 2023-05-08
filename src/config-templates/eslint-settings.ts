@@ -13,7 +13,6 @@ export const ESLINT_SETTINGS = {
   parser: "@typescript-eslint/parser",
   parserOptions: {
     project: "./tsconfig.json",
-    ecmaVersion: 12,
     sourceType: "module",
   },
   rules: {

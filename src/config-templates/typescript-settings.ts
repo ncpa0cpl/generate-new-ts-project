@@ -13,6 +13,8 @@ export const TYPESCRIPT_SETTINGS = {
     esModuleInterop: true,
     skipLibCheck: true,
     forceConsistentCasingInFileNames: true,
+    isolatedModules: true,
+    noImplicitAny: true,
   },
   include: ["src/**/*"],
 };

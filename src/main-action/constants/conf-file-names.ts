@@ -1,4 +1,5 @@
 export enum ConfFileNames {
+  SWC_CONFIG = ".swcrc",
   ESLINT_IGNORE = ".eslintignore",
   ESLINT_RC = ".eslintrc.json",
   GIT_HOOK_TASKS_CONFIG = "git-hook-tasks.config.json",
