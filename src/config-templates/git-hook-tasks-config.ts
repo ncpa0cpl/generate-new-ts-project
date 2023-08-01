@@ -8,15 +8,15 @@ export const getGitHookTasksConfig = (packageManager: string) => ({
         script: "test:tsc",
       },
       {
-        name: "ESLint",
+        name: "Lint",
         script: "test:lint",
       },
       {
-        name: "Prettier",
-        script: "test:prettier",
+        name: "Formatting",
+        script: "test:format",
       },
       {
-        name: "Jest Tests",
+        name: "Unit Tests",
         script: "test:unit",
       },
     ],

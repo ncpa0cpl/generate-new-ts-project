@@ -26,7 +26,7 @@ const createEslintSettingsFile = (filePath: string) => {
 };
 
 const createPrettierSettingsFile = (filePath: string) => {
-  return fs.writeFile(filePath, JSON.stringify(PRETTIER_SETTINGS, null, 2));
+  return fs.writeFile(filePath, PRETTIER_SETTINGS);
 };
 
 const createGitIgnoreFile = (filePath: string) => {

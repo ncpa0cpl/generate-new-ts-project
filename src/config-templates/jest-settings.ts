@@ -1,5 +1,7 @@
+import { js } from "../utils/js";
+
 export const JEST_SETTINGS =
-  /** Js */ `
+  js`
 const fs = require("fs");
 const path = require("path");
 

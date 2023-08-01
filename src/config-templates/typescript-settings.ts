@@ -1,7 +1,7 @@
 export const TYPESCRIPT_SETTINGS = {
   compilerOptions: {
-    target: "es6",
-    module: "commonjs",
+    target: "ESNext",
+    module: "ES6",
     jsx: "react",
     declaration: true,
     outDir: "./dist",
@@ -16,5 +16,4 @@ export const TYPESCRIPT_SETTINGS = {
     isolatedModules: true,
     noImplicitAny: true,
   },
-  include: ["src/**/*"],
 };

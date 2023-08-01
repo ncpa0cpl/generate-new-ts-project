@@ -17,30 +17,38 @@ export const updatePackageFile = async (
 
   const fileData = await fs.readFile(packageFile, { encoding: "utf-8" });
 
-  const packageSettings: Record<string, any> = JSON.parse(fileData);
+  const prePackageSettings: Record<string, any> = JSON.parse(fileData);
 
-  packageSettings["name"] = projectName;
-  packageSettings["version"] = "1.0.0";
-  packageSettings["main"] = "./dist/index.js";
-  packageSettings["scripts"] = {
-    "fix:lint": "eslint --fix .",
-    "fix:prettier": "prettier -w ./src .",
-    "test:unit": "jest --coverage",
-    "test:lint": "eslint ./src && eslint ./__tests__",
-    "test:prettier": "prettier -c ./src && prettier -c ./__tests__",
-    "test:tsc": "tsc --noEmit",
-    build: "tsc",
+  const packageSettings = {
+    name: projectName,
+    version: "1.0.0",
+    main: "./dist/index.js",
+    keywords: [],
+    repository: {
+      type: "git",
+      url: "",
+    },
+    description: "",
+    license: "MIT",
+    author: { name: authorName ?? "", email: "" },
+    scripts: {
+      "fix:lint": "eslint --fix ./src/**/*.{ts}",
+      "fix:format": "prettier -w ./src/**/*.{ts}",
+      "test:unit": "jest --coverage",
+      "test:lint": "eslint ./src/**/*.{ts}",
+      "test:format": "prettier -c ./src/**/*.{ts}",
+      "test:tsc": "tsc --noEmit",
+      build: "tsc",
+    },
+    dependencies: {},
+    devDependencies: {},
   };
-  packageSettings["keywords"] = [];
-  packageSettings["repository"] = {
-    url: "",
-  };
-  packageSettings["description"] = "";
-  packageSettings["license"] = "MIT";
-  packageSettings["author"] = {
-    name: authorName ?? "",
-    email: "",
-  };
+
+  for (const [k, v] of Object.entries(prePackageSettings)) {
+    if (!(k in packageSettings)) {
+      Object.assign(packageSettings, { [k]: v });
+    }
+  }
 
   return await fs.writeFile(
     packageFile,

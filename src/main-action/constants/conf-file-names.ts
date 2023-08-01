@@ -9,7 +9,7 @@ export enum ConfFileNames {
   NPM_IGNORE = ".npmignore",
   NPM_CONFIG = ".npmrc",
   PACKAGE = "package.json",
-  PRETTIER_RC = ".prettierrc.json",
+  PRETTIER_RC = ".prettierrc.mjs",
   TS_CONFIG = "tsconfig.json",
   VS_CODE_SETTINGS = ".vscode/settings.json",
   YARN_RC = ".yarnrc.yml",

@@ -1,7 +1,19 @@
-export const PRETTIER_SETTINGS = {
+import { js } from "../utils/js";
+
+export const PRETTIER_SETTINGS = js`
+/**
+ * @type {import("prettier").Options}
+ */
+const config = {
+  bracketSpacing: true,
   tabWidth: 2,
   semi: true,
   singleQuote: false,
-  printWidth: 80,
-  jsdocPrintWidth: 65,
+  printWidth: 70,
+  singleAttributePerLine: true,
+  plugins: ["./node_modules/prettier-plugin-jsdoc/dist/index.js"],
+  jsdocSingleLineComment: false,
 };
+
+export default config;
+`;
