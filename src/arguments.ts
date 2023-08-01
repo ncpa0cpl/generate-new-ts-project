@@ -31,9 +31,10 @@ export const AuthorName = Argument.define({
   description: "Name of the author.",
 });
 
-export const YarnVersion = Argument.define({
-  flagChar: "-y",
-  keyword: "--yarn-version",
+export const Modules = Argument.define({
+  flagChar: "-m",
+  keyword: "--modules",
   dataType: "string",
-  description: "Version of yarn to use.",
+  description:
+    "Comma separated list of modules. Currently available modules: jest, gest, yarn3, esbuild, nodepack, build-tsc",
 });

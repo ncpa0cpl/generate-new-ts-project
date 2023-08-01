@@ -1,7 +1,11 @@
-export const getLicense = (name?: string) => {
+import type { ConfigFileContext } from "../utils/config-file";
+
+export const getLicense = (ctx: ConfigFileContext) => {
   return `MIT License
 
-  Copyright (c) ${new Date().getFullYear()}${name ? ` ${name}` : ""}
+  Copyright (c) ${new Date().getFullYear()}${
+    ctx.authorName ? ` ${ctx.authorName}` : ""
+  }
   
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal

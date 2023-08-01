@@ -4,9 +4,9 @@ import path from "path";
 import { html, Output } from "termx-markup";
 import { getPackageManager } from "../bindings/get-package-manager";
 import { Git } from "../bindings/git";
-import { configureGitHookTasks } from "./configre-git-hook-tasks";
-import { Dependency, DEV_DEPS } from "./constants/dev-dependencies";
+import { Dependency } from "../utils/deps";
 import { createConfigFiles } from "./create-config-files";
+import { ModuleController } from "./module-controller";
 import { updatePackageFile } from "./update-package-file";
 
 export type MainActionParams = {
@@ -14,11 +14,19 @@ export type MainActionParams = {
   authorName: Argument<"string", false>;
   packageManager: Argument<"string", true>;
   cwd: Argument<"string", false>;
-  yarnVersion: Argument<"string", false>;
+  modules: Argument<"string", false>;
 };
 
 export const mainAction = async (params: MainActionParams) => {
-  const { projectName, authorName, cwd, packageManager } = params;
+  const { projectName, authorName, cwd, packageManager, modules } = params;
+
+  const PM = getPackageManager(packageManager.value);
+  const moduleController = new ModuleController({
+    moduleList: modules.value ?? "",
+    packageManager: PM,
+    projectName: projectName.value,
+    authorName: authorName.value,
+  });
 
   const rootDir = cwd.value ?? process.cwd();
 
@@ -26,9 +34,6 @@ export const mainAction = async (params: MainActionParams) => {
 
   const srcDir = path.resolve(projectDir, "src");
   const distDir = path.resolve(projectDir, "dist");
-  const vscodeDir = path.resolve(projectDir, ".vscode");
-  const testsDir = path.resolve(projectDir, "__tests__");
-  const mocksDir = path.resolve(projectDir, "__mocks__");
 
   const indexFile = path.resolve(srcDir, "index.ts");
 
@@ -38,19 +43,17 @@ export const mainAction = async (params: MainActionParams) => {
     console.error(
       `Directory with the name "${projectName.value}" already exists.`
     );
-    process.exit(-1);
+    process.exit(1);
   }
 
   await fs.mkdir(projectDir);
 
-  const PM = getPackageManager(packageManager.value);
-
   PM.setCwd(projectDir);
-
-  if (PM.getName() === "yarn")
-    await PM.changeVersion(params.yarnVersion.value ?? "classic");
-
   await PM.init();
+
+  await moduleController.beforeStart(projectDir);
+
+  await Git.init(projectDir);
 
   Output.print(html`
     <span color="lightGreen">Generating:</span>
@@ -61,30 +64,36 @@ export const mainAction = async (params: MainActionParams) => {
   await Promise.all([
     fs.mkdir(srcDir),
     fs.mkdir(distDir),
-    fs.mkdir(vscodeDir),
-    fs.mkdir(testsDir),
-    fs.mkdir(mocksDir),
-    createConfigFiles(projectDir, PM, authorName.value),
+    createConfigFiles(
+      projectDir,
+      moduleController.getConfigFiles(),
+      moduleController.getContext()
+    ),
   ]);
 
   await fs.writeFile(indexFile, "");
 
   Dependency.setPackageManagerType(PM.getName(), await PM.getVersion());
 
-  for (const dependency of DEV_DEPS) {
+  for (const dependency of moduleController.getDependencies()) {
     Output.print(html`
       <span color="lightGreen">Installing dependency:</span>
+      <pre> ${dependency.getFriendlyName()}</pre>
+    `);
+    await PM.install(dependency.getInstallName());
+  }
+
+  for (const dependency of moduleController.getDevDependencies()) {
+    Output.print(html`
+      <span color="lightGreen">Installing development dependency:</span>
       <pre> ${dependency.getFriendlyName()}</pre>
     `);
     await PM.installDev(dependency.getInstallName());
   }
 
-  await Git.init(projectDir);
+  await updatePackageFile(projectDir, moduleController);
 
-  await Promise.all([
-    updatePackageFile(projectName.value, projectDir, params.authorName.value),
-    configureGitHookTasks(PM),
-  ]);
+  await moduleController.afterEnd();
 
   await Git.add();
 };

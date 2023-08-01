@@ -5,4 +5,4 @@ export const GIT_IGNORE = [
   "/yarn-error.log",
   "/.yarn/cache",
   "/.yarn/install-state.gz",
-];
+].join("\n");

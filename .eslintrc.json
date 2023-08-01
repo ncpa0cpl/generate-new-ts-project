@@ -56,7 +56,7 @@
     "@typescript-eslint/prefer-nullish-coalescing": 1,
     "@typescript-eslint/require-array-sort-compare": 1,
     "@typescript-eslint/no-base-to-string": 1,
-    "@typescript-eslint/no-empty-interface": 1,
+    "@typescript-eslint/no-empty-interface": 0,
     "@typescript-eslint/no-this-alias": 0,
     "@typescript-eslint/no-non-null-assertion": 0,
     "@typescript-eslint/no-explicit-any": 0,

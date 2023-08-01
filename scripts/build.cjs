@@ -11,7 +11,10 @@ const watch = process.argv.includes("--watch");
 async function main() {
   try {
     const outFilePath = p("dist/generate-new-ts-project.js");
-    await esbuild.build({
+
+    /** @type {import("esbuild").BuildOptions} */
+    const bldOptions = {
+      target: "es2020",
       entryPoints: [p("src/generate-new-ts-project.ts")],
       outfile: outFilePath,
       bundle: true,
@@ -20,7 +23,14 @@ async function main() {
       platform: "node",
       treeShaking: !isDev,
       tsconfig: p("tsconfig.json"),
-    });
+    };
+
+    if (watch) {
+      const buildCtx = await esbuild.context(bldOptions);
+      await buildCtx.watch();
+    } else {
+      await esbuild.build(bldOptions);
+    }
 
     // add shebang
     const fileContents = fs.readFileSync(outFilePath, "utf8");

@@ -21,4 +21,4 @@ export const NPM_IGNORE = [
   "/jest.config.js",
   "/tsconfig.json",
   "/yarn-error.log",
-];
+].join("\n");

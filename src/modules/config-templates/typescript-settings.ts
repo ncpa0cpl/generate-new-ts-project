@@ -1,7 +1,8 @@
-export const TYPESCRIPT_SETTINGS = {
+export const TSCONFIG = {
   compilerOptions: {
     target: "ESNext",
     module: "ES6",
+    moduleResolution: "node",
     jsx: "react",
     declaration: true,
     outDir: "./dist",

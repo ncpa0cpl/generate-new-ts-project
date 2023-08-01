@@ -1,4 +1,4 @@
-import { js } from "../utils/js";
+import { js } from "../../utils/js";
 
 export const PRETTIER_SETTINGS = js`
 /**
