@@ -17,4 +17,5 @@ export const TSCONFIG = {
     isolatedModules: true,
     noImplicitAny: true,
   },
+  include: ["src/**/*"],
 };

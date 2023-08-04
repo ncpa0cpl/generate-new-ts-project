@@ -33,10 +33,10 @@ export const updatePackageFile = async (
     license: "MIT",
     author: { name: ctx.authorName ?? "", email: "" },
     scripts: {
-      "fix:lint": "eslint --fix ./src/**/*.{ts}",
-      "fix:format": "prettier -w ./src/**/*.{ts}",
-      "test:lint": "eslint ./src/**/*.{ts}",
-      "test:format": "prettier -c ./src/**/*.{ts}",
+      "fix:lint": "eslint --fix ./src/**/*.ts",
+      "fix:format": "prettier -w ./src/**/*.ts",
+      "test:lint": "eslint ./src/**/*.ts",
+      "test:format": "prettier -c ./src/**/*.ts",
       "test:tsc": "tsc --noEmit",
     },
   });
