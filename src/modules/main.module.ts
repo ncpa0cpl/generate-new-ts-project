@@ -7,6 +7,7 @@ import { Dependency } from "../utils/deps";
 import { ESLINT_IGNORE } from "./config-templates/eslint-ignore";
 import { ESLINT_SETTINGS } from "./config-templates/eslint-settings";
 import { getGitHookTasksConfig } from "./config-templates/git-hook-tasks-config";
+import { GIT_IGNORE } from "./config-templates/git-ignore";
 import { getLicense } from "./config-templates/license";
 import { NPM_CONFIG } from "./config-templates/npm-config";
 import { NPM_IGNORE } from "./config-templates/npm-ignore";
@@ -46,6 +47,7 @@ export class MainModule implements Module {
 
   getConfigFiles(): ConfigFile[] {
     return [
+      new ConfigFile(() => GIT_IGNORE, ConfFileNames.GIT_IGNORE),
       new ConfigFile(() => TSCONFIG, ConfFileNames.TS_CONFIG),
       new ConfigFile(() => PRETTIER_SETTINGS, ConfFileNames.PRETTIER_RC),
       new ConfigFile(() => PRETTIER_IGNORE, ConfFileNames.PRETTIER_IGNORE),
