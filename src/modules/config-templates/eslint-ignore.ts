@@ -22,4 +22,5 @@ export const ESLINT_IGNORE = [
   "/*.js",
   "/*.mjs",
   "/*.cjs",
+  "/scripts",
 ].join("\n");

@@ -3,7 +3,6 @@ import { js } from "../../utils/js";
 export const NODEPACK_SCRIPT = js`
 import { build } from "@ncpa0cpl/nodepack";
 import path from "node:path";
-import fs from "node:fs/promises";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -26,6 +25,7 @@ async function main() {
     watch: watch,
     esbuildOptions: {
       minify: !isDev,
+      sourcemap: isDev ? "inline" : false,
     }
   }
 

@@ -3,7 +3,6 @@ import { js } from "../../utils/js";
 export const ESBUILD_SCRIPT = js`
 import esbuild from "esbuild";
 import path from "node:path";
-import fs from "node:fs/promises";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
