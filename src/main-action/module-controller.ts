@@ -1,6 +1,7 @@
 import path from "path";
 import type { PackageManager } from "../bindings/types";
 import { EsbuildModule } from "../modules/esbuild.module";
+import { EslintModule } from "../modules/eslint.module";
 import { GestModule } from "../modules/gest.module";
 import type { Module, ModuleContext } from "../modules/interface";
 import { JestModule } from "../modules/jest.module";
@@ -29,13 +30,14 @@ export class ModuleController {
     new TscBuilderModule(),
     new NodepackModule(),
     new EsbuildModule(),
+    new EslintModule(),
   ];
 
   private readonly ctx: ModuleContext;
   private readonly loadedModules: Module[] = [mainMod];
 
   constructor(options: ModuleControllerOptions) {
-    const modsToLoad = options.moduleList.split(",").filter(Boolean);
+    const modsToLoad = options.moduleList.split(",").filter((v) => Boolean(v));
 
     for (const mod of modsToLoad) {
       const module = ModuleController.Modules.find((m) => m.getName() === mod);
@@ -65,6 +67,7 @@ export class ModuleController {
 
   async beforeStart(cwd: string) {
     this.ctx.projectDir = cwd;
+    Object.freeze(this.ctx);
 
     for (const mod of this.loadedModules) {
       if (mod.beforeStart) await mod.beforeStart(this.ctx);

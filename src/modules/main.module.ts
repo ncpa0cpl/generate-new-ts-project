@@ -4,8 +4,6 @@ import { configureGitHookTasks } from "../main-action/configre-git-hook-tasks";
 import { ConfFileNames } from "../main-action/constants/conf-file-names";
 import { ConfigFile } from "../utils/config-file";
 import { Dependency } from "../utils/deps";
-import { ESLINT_IGNORE } from "./config-templates/eslint-ignore";
-import { ESLINT_SETTINGS } from "./config-templates/eslint-settings";
 import { getGitHookTasksConfig } from "./config-templates/git-hook-tasks-config";
 import { GIT_IGNORE } from "./config-templates/git-ignore";
 import { getLicense } from "./config-templates/license";
@@ -29,11 +27,6 @@ export class MainModule implements Module {
 
   getDevDependencies(): Dependency[] {
     return [
-      new Dependency("@typescript-eslint/eslint-plugin"),
-      new Dependency("@typescript-eslint/parser"),
-      new Dependency("eslint-config-prettier"),
-      new Dependency("eslint-plugin-prettier"),
-      new Dependency("eslint"),
       new Dependency("husky"),
       new Dependency("prettier-plugin-jsdoc"),
       new Dependency("prettier"),
@@ -51,8 +44,6 @@ export class MainModule implements Module {
       new ConfigFile(() => TSCONFIG, ConfFileNames.TS_CONFIG),
       new ConfigFile(() => PRETTIER_SETTINGS, ConfFileNames.PRETTIER_RC),
       new ConfigFile(() => PRETTIER_IGNORE, ConfFileNames.PRETTIER_IGNORE),
-      new ConfigFile(() => ESLINT_SETTINGS, ConfFileNames.ESLINT_RC),
-      new ConfigFile(() => ESLINT_IGNORE, ConfFileNames.ESLINT_IGNORE),
       new ConfigFile(() => NPM_CONFIG, ConfFileNames.NPM_CONFIG),
       new ConfigFile(() => NPM_IGNORE, ConfFileNames.NPM_IGNORE),
       new ConfigFile(getLicense, ConfFileNames.LICENSE),

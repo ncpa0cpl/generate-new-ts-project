@@ -7,10 +7,6 @@ export const getGitHookTasksConfig = (ctx: ConfigFileContext) => {
       script: "test:tsc",
     },
     {
-      name: "Lint",
-      script: "test:lint",
-    },
-    {
       name: "Formatting",
       script: "test:format",
     },
