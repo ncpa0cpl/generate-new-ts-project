@@ -1,13 +1,11 @@
 import fs from "fs/promises";
 import path from "path";
 import { html, Output } from "termx-markup";
-import type { ModuleContext } from "../modules/interface";
-import type { ConfigFile } from "../utils/config-file";
+import type { ModuleController } from "./module-controller";
 
 export const createConfigFiles = async (
   cwd: string,
-  confFiles: ConfigFile[],
-  ctx: ModuleContext
+  modules: ModuleController
 ) => {
   Output.print(
     html`
@@ -16,11 +14,8 @@ export const createConfigFiles = async (
     `
   );
 
-  const writeOps = confFiles.map(async (cf) => {
-    const content = cf.getAsString(ctx);
-    const filepath = path.resolve(cwd, cf.location, cf.filename);
-
-    await fs.writeFile(filepath, content);
+  const writeOps = modules.getConfigFiles().map(async (cf) => {
+    await fs.writeFile(path.resolve(cwd, cf.filepath), cf.content);
   });
 
   return Promise.all(writeOps);

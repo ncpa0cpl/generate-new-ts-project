@@ -3,6 +3,7 @@ import path from "path";
 import { ConfFileNames } from "../main-action/constants/conf-file-names";
 import { ConfigFile } from "../utils/config-file";
 import { Dependency } from "../utils/deps";
+import { isRecord } from "../utils/is-record";
 import type { PkgJsonFacade } from "../utils/pkg-json-facade";
 import { GEST_CONFIG } from "./config-templates/gest-config";
 import { TESTDIR_TSCONFIG } from "./config-templates/test-dir-tsconfig";
@@ -36,5 +37,14 @@ export class GestModule implements Module {
   packageJsonMiddleware(packageJson: PkgJsonFacade): PkgJsonFacade {
     packageJson.addScript("test:unit", "gest");
     return packageJson;
+  }
+
+  beforeWriteFile(filename: string, content: string | object) {
+    if (filename === ConfFileNames.GIT_HOOK_TASKS_CONFIG && isRecord(content)) {
+      content["hooks"]["pre-push"].push({
+        name: "Unit Tests",
+        script: "test:unit",
+      });
+    }
   }
 }

@@ -4,7 +4,7 @@ export interface ConfigFileContext extends ModuleContext {}
 
 export class ConfigFile {
   constructor(
-    private readonly getContent: (ctx: ConfigFileContext) => string | object,
+    public readonly getContent: (ctx: ConfigFileContext) => string | object,
     public readonly filename: string,
     public readonly location: string = "."
   ) {}

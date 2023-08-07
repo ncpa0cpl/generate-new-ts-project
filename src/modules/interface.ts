@@ -18,8 +18,13 @@ export interface Module {
   getDependencies?(ctx: ModuleContext): Dependency[];
   getDevDependencies?(ctx: ModuleContext): Dependency[];
   getConfigFiles?(ctx: ModuleContext): ConfigFile[];
-  packageJsonMiddleware?: (
+  packageJsonMiddleware?(
     packageJson: PkgJsonFacade,
     ctx: ModuleContext
-  ) => PkgJsonFacade | Promise<PkgJsonFacade>;
+  ): PkgJsonFacade | Promise<PkgJsonFacade>;
+  beforeWriteFile?(
+    filename: string,
+    content: object | string,
+    ctx: ModuleContext
+  ): void | undefined | object | string;
 }

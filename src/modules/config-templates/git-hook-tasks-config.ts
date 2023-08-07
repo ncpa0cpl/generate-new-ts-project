@@ -1,4 +1,4 @@
-import type { ConfigFileContext } from "../utils/config-file";
+import type { ConfigFileContext } from "../../utils/config-file";
 
 export const getGitHookTasksConfig = (ctx: ConfigFileContext) => {
   const prePush = [
@@ -15,16 +15,6 @@ export const getGitHookTasksConfig = (ctx: ConfigFileContext) => {
       script: "test:format",
     },
   ];
-
-  if (
-    ctx.allLoadedModules.includes("jest") ||
-    ctx.allLoadedModules.includes("gest")
-  ) {
-    prePush.push({
-      name: "Unit Tests",
-      script: "test:unit",
-    });
-  }
 
   return {
     packageManager: ctx.packageManager.getName(),

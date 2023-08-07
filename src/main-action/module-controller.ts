@@ -1,3 +1,4 @@
+import path from "path";
 import type { PackageManager } from "../bindings/types";
 import { EsbuildModule } from "../modules/esbuild.module";
 import { GestModule } from "../modules/gest.module";
@@ -88,10 +89,25 @@ export class ModuleController {
       .filter((d): d is Dependency => d != null);
   }
 
+  private prepareFile(cf: ConfigFile) {
+    const content = this.loadedModules.reduce((c: string | object, m) => {
+      return m.beforeWriteFile?.(cf.filename, c, this.ctx) ?? c;
+    }, cf.getContent(this.ctx));
+
+    return {
+      filepath: path.join(cf.location, cf.filename),
+      content:
+        typeof content === "string"
+          ? content
+          : JSON.stringify(content, null, 2),
+    };
+  }
+
   getConfigFiles() {
     return this.loadedModules
       .flatMap((m) => m.getConfigFiles?.(this.ctx))
-      .filter((d): d is ConfigFile => d != null);
+      .filter((cf): cf is ConfigFile => cf != null)
+      .map((cf) => this.prepareFile(cf));
   }
 
   async applyPackageJsonMiddleware(packageJson: PkgJsonFacade) {

@@ -64,11 +64,7 @@ export const mainAction = async (params: MainActionParams) => {
   await Promise.all([
     fs.mkdir(srcDir),
     fs.mkdir(distDir),
-    createConfigFiles(
-      projectDir,
-      moduleController.getConfigFiles(),
-      moduleController.getContext()
-    ),
+    createConfigFiles(projectDir, moduleController),
   ]);
 
   await fs.writeFile(indexFile, "");
