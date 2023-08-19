@@ -18,7 +18,7 @@ async function main() {
   const bldOptions = {
     tsconfig: p("tsconfig.json"),
     entryPoints: [p("src/index.ts")],
-    outfile: p("dist"),
+    outdir: p("dist"),
     bundle: true,
     keepNames: true,
     treeShaking: !isDev,

@@ -23,6 +23,10 @@ export class MainModule implements Module {
   async beforeStart(ctx: ModuleContext): Promise<void> {
     const vscodeDir = path.resolve(ctx.projectDir, ".vscode");
     await fs.mkdir(vscodeDir);
+
+    if (ctx.packageManager.getName() === "yarn") {
+      return await ctx.packageManager.changeVersion("classic");
+    }
   }
 
   getDevDependencies(): Dependency[] {
