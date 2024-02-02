@@ -15,4 +15,6 @@ export enum ConfFileNames {
   TS_CONFIG = "tsconfig.json",
   VS_CODE_SETTINGS = "settings.json",
   YARN_RC = ".yarnrc.yml",
+  DPRINT = "dprint.json",
+  VITEST = "vitest.config.mts",
 }

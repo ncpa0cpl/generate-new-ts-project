@@ -33,9 +33,8 @@ export const updatePackageFile = async (
     license: "MIT",
     author: { name: ctx.authorName ?? "", email: "" },
     scripts: {
-      "fix:format": "prettier -w ./src/**/*.ts",
-      "test:format": "prettier -c ./src/**/*.ts",
       "test:tsc": "tsc --noEmit",
+      prepare: "husky install",
     },
   });
 

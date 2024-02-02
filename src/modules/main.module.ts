@@ -9,8 +9,6 @@ import { GIT_IGNORE } from "./config-templates/git-ignore";
 import { getLicense } from "./config-templates/license";
 import { NPM_CONFIG } from "./config-templates/npm-config";
 import { NPM_IGNORE } from "./config-templates/npm-ignore";
-import { PRETTIER_IGNORE } from "./config-templates/prettier-ignore";
-import { PRETTIER_SETTINGS } from "./config-templates/prettier-settings";
 import { TSCONFIG } from "./config-templates/typescript-settings";
 import { VSCODE_SETTINGS } from "./config-templates/vscode-settings";
 import type { Module, ModuleContext } from "./interface";
@@ -31,13 +29,14 @@ export class MainModule implements Module {
 
   getDevDependencies(): Dependency[] {
     return [
-      new Dependency("husky"),
-      new Dependency("prettier-plugin-jsdoc"),
-      new Dependency("prettier"),
       new Dependency("typescript"),
+      new Dependency("husky", {
+        version: "~8",
+      }),
       new Dependency("git-hook-tasks", {
         register: "github",
         user: "ncpa0cpl",
+        version: "0.0.1",
       }),
     ];
   }
@@ -46,8 +45,6 @@ export class MainModule implements Module {
     return [
       new ConfigFile(() => GIT_IGNORE, ConfFileNames.GIT_IGNORE),
       new ConfigFile(() => TSCONFIG, ConfFileNames.TS_CONFIG),
-      new ConfigFile(() => PRETTIER_SETTINGS, ConfFileNames.PRETTIER_RC),
-      new ConfigFile(() => PRETTIER_IGNORE, ConfFileNames.PRETTIER_IGNORE),
       new ConfigFile(() => NPM_CONFIG, ConfFileNames.NPM_CONFIG),
       new ConfigFile(() => NPM_IGNORE, ConfFileNames.NPM_IGNORE),
       new ConfigFile(getLicense, ConfFileNames.LICENSE),

@@ -1,5 +1,6 @@
 import path from "path";
 import type { PackageManager } from "../bindings/types";
+import { DprintModule } from "../modules/dprint.module";
 import { EsbuildModule } from "../modules/esbuild.module";
 import { EslintModule } from "../modules/eslint.module";
 import { GestModule } from "../modules/gest.module";
@@ -7,7 +8,9 @@ import type { Module, ModuleContext } from "../modules/interface";
 import { JestModule } from "../modules/jest.module";
 import { MainModule } from "../modules/main.module";
 import { NodepackModule } from "../modules/nodepack.module";
+import { PrettierModule } from "../modules/prettier.module";
 import { TscBuilderModule } from "../modules/tsc-builder.module";
+import { VitestModule } from "../modules/vitest.module";
 import { YarnBerryModule } from "../modules/yarn-berry.module";
 import type { ConfigFile } from "../utils/config-file";
 import type { Dependency } from "../utils/deps";
@@ -25,18 +28,25 @@ const mainMod = new MainModule();
 export class ModuleController {
   private static Modules = [
     new JestModule(),
+    new VitestModule(),
     new GestModule(),
     new YarnBerryModule(),
     new TscBuilderModule(),
     new NodepackModule(),
     new EsbuildModule(),
     new EslintModule(),
+    new PrettierModule(),
+    new DprintModule(),
   ];
 
   private readonly ctx: ModuleContext;
   private readonly loadedModules: Module[] = [mainMod];
 
   constructor(options: ModuleControllerOptions) {
+    if (options.moduleList === "default") {
+      options.moduleList = "dprint,nodepack,vitest";
+    }
+
     const modsToLoad = options.moduleList.split(",").filter((v) => Boolean(v));
 
     for (const mod of modsToLoad) {

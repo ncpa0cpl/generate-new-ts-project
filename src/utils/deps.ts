@@ -32,11 +32,16 @@ export class Dependency {
   }
 
   private getNameForGithubRegister() {
+    let name: string;
     if (Dependency.pmType === "yarn" && Dependency.pmVersion.startsWith("3")) {
-      return `${this.name!}@${this.options.user!}/${this.name}`;
+      name = `${this.name!}@${this.options.user!}/${this.name}`;
     } else {
-      return `${this.options.user!}/${this.name}`;
+      name = `git+https://github.com/${this.options.user!}/${this.name}`;
     }
+    if (this.options.version && this.options.version !== "latest") {
+      name += `#${this.options.version}`;
+    }
+    return name;
   }
 
   getFriendlyName() {
