@@ -6,7 +6,8 @@ export const PackageManager = Argument.define({
   dataType: "string",
   default: "yarn",
   require: true,
-  description: "Package manager used to install dependencies. (yarn or npm)",
+  description:
+    "Package manager used to install dependencies. (yarn, bun or npm)",
 });
 
 export const ProjectName = Argument.define({

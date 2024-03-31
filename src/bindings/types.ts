@@ -1,5 +1,5 @@
 export type PackageManager = {
-  getName(): "npm" | "yarn";
+  getName(): "npm" | "yarn" | "bun";
   /** Changes the current working directory. */
   setCwd(cwd: string): void;
   /** Installs a dependency. */
@@ -12,8 +12,14 @@ export type PackageManager = {
   run(script: string, ...args: string[]): Promise<any>;
   /** Initializes a new project if applicable. */
   init(): Promise<any>;
-  /** Only supported by yarn, changes the version of the package manager. */
+  /**
+   * Only supported by yarn, changes the version of the package
+   * manager.
+   */
   changeVersion(version: string): Promise<any>;
-  /** Only supported by Yarn, returns the current package manager version. */
+  /**
+   * Only supported by Yarn, returns the current package manager
+   * version.
+   */
   getVersion(): Promise<string>;
 };
