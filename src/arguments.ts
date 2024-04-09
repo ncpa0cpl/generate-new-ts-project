@@ -1,4 +1,5 @@
 import { Argument } from "clify.js";
+import { ModuleController } from "./main-action/module-controller";
 
 export const PackageManager = Argument.define({
   flagChar: "-p",
@@ -36,6 +37,5 @@ export const Modules = Argument.define({
   flagChar: "-m",
   keyword: "--modules",
   dataType: "string",
-  description:
-    "Comma separated list of modules. Currently available modules: jest, gest, yarn3, esbuild, nodepack, build-tsc",
+  description: `Comma separated list of modules. Available modules: ${ModuleController.listAvailableModules()}`,
 });

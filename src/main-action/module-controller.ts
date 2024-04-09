@@ -39,6 +39,10 @@ export class ModuleController {
     new DprintModule(),
   ];
 
+  public static listAvailableModules() {
+    return this.Modules.map((m) => m.getName()).join(", ");
+  }
+
   private readonly ctx: ModuleContext;
   private readonly loadedModules: Module[] = [mainMod];
 
