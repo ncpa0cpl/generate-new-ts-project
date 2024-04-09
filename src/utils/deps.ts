@@ -11,10 +11,10 @@ export type DependencyOptions =
     };
 
 export class Dependency {
-  static pmType: "npm" | "yarn";
+  static pmType: "npm" | "yarn" | "bun";
   static pmVersion: string;
 
-  static setPackageManagerType(type: "npm" | "yarn", version = "") {
+  static setPackageManagerType(type: "npm" | "yarn" | "bun", version = "") {
     this.pmType = type;
     this.pmVersion = version;
   }
