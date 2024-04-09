@@ -36,6 +36,10 @@ export const Npm: PackageManager = class Npm {
     Npm.cwd = cwd;
   }
 
+  static wd() {
+    return Npm.cwd;
+  }
+
   static install(pkg: string) {
     const args: string[] = ["npm", "install"];
 

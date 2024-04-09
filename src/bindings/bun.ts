@@ -48,6 +48,10 @@ export const BunPM: PackageManager = class BunPM {
     BunPM.cwd = cwd;
   }
 
+  static wd() {
+    return BunPM.cwd;
+  }
+
   static async init() {
     const version = await BunPM.getVersion();
 

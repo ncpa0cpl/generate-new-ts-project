@@ -2,6 +2,8 @@ export type PackageManager = {
   getName(): "npm" | "yarn" | "bun";
   /** Changes the current working directory. */
   setCwd(cwd: string): void;
+  /** Returns the current working directory. */
+  wd(): string;
   /** Installs a dependency. */
   install(pkg: string): Promise<any>;
   /** Installs a devDependency. */

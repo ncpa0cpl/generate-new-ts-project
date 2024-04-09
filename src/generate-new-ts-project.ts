@@ -1,3 +1,5 @@
+/// <reference types="bun-types" />
+
 import clify from "clify.js";
 import {
   AuthorName,

@@ -35,6 +35,10 @@ export const Yarn: PackageManager = class Yarn {
     Yarn.cwd = cwd;
   }
 
+  static wd() {
+    return Yarn.cwd;
+  }
+
   static async init() {
     const version = await Yarn.getVersion();
 

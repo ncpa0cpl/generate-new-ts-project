@@ -34,7 +34,7 @@ async function main() {
 
     // add shebang
     const fileContents = fs.readFileSync(outFilePath, "utf8");
-    fs.writeFileSync(outFilePath, "#!/usr/bin/env node\n" + fileContents);
+    fs.writeFileSync(outFilePath, "#!/usr/bin/env bun\n" + fileContents);
 
     // add executable permissions id on unix-like systems
     if (os.platform() !== "win32") {

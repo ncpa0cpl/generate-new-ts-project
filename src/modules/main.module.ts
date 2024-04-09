@@ -22,13 +22,21 @@ export class MainModule implements Module {
     const vscodeDir = path.resolve(ctx.projectDir, ".vscode");
     await fs.mkdir(vscodeDir);
 
-    if (ctx.packageManager.getName() === "yarn") {
-      return await ctx.packageManager.changeVersion("classic");
+    const currentPm = ctx.packageManager.getName();
+    switch (currentPm) {
+      case "yarn": {
+        await ctx.packageManager.changeVersion("classic");
+        break;
+      }
+      case "bun": {
+        await ctx.packageManager.run("init", "--yes");
+        break;
+      }
     }
   }
 
-  getDevDependencies(): Dependency[] {
-    return [
+  getDevDependencies(ctx: ModuleContext): Dependency[] {
+    const deps: Dependency[] = [
       new Dependency("typescript"),
       new Dependency("husky", {
         version: "~8",
@@ -39,6 +47,8 @@ export class MainModule implements Module {
         version: "0.0.1",
       }),
     ];
+
+    return deps;
   }
 
   getConfigFiles(): ConfigFile[] {
@@ -61,6 +71,20 @@ export class MainModule implements Module {
   }
 
   async afterEnd(ctx: ModuleContext): Promise<void> {
-    await configureGitHookTasks(ctx.packageManager);
+    if (ctx.packageManager.getName() !== "bun") {
+      await configureGitHookTasks(ctx.packageManager);
+    } else {
+      await ctx.packageManager.run("husky", "install");
+      await ctx.packageManager.run(
+        "husky",
+        "add",
+        ".husky/pre-push",
+        `"${await ctx.packageManager.generateCommand(
+          "git-hook-tasks pre-push"
+        )}"`
+      );
+      const f = Bun.file(path.join(ctx.packageManager.wd(), ".husky/pre-push"));
+      await Bun.write(f, await f.text().then((t) => t.replace(/\\/g, "")));
+    }
   }
 }
