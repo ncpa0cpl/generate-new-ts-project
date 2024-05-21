@@ -6,7 +6,7 @@
     "@typescript-eslint/eslint-plugin": "^5.54.0",
     "@typescript-eslint/parser": "^5.54.0",
     "bun-types": "^1.1.3",
-    "esbuild": "^0.17.10",
+    "esbuild": "^0.21.3",
     "eslint": "^8.35.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -15,7 +15,7 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "clify.js": "ncpa0cpl/clify.js#0.0.4",
+    "clify.js": "^1.0.0-beta.1",
     "termx-markup": "^1.1.0"
   },
   "scripts": {

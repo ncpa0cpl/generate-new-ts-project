@@ -22,6 +22,7 @@ async function main() {
       keepNames: true,
       platform: "node",
       treeShaking: !isDev,
+      sourcemap: isDev ? "inline" : false,
       tsconfig: p("tsconfig.json"),
     };
 

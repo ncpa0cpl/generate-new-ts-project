@@ -31,15 +31,15 @@ export const BunPM: PackageManager = class BunPM {
 
   private static async execute(command: string): Promise<string> {
     return new Promise<string>((resolve, reject) => {
-      child_process.exec(command, { cwd: BunPM.cwd }, (err, stdout) => {
-        if (err) return reject(err);
+      child_process.exec(command, { cwd: BunPM.cwd }, (err, stdout, stderr) => {
+        if (err) return reject(new Error(stderr));
         return resolve(stdout);
       });
     });
   }
 
   static async getVersion(): Promise<string> {
-    return "1.0.0";
+    return "";
   }
 
   static async changeVersion(version: string) {}
@@ -53,11 +53,16 @@ export const BunPM: PackageManager = class BunPM {
   }
 
   static async init() {
-    const version = await BunPM.getVersion();
-
-    if (version.startsWith("3")) {
-      return BunPM.run("init", "-y");
-    }
+    await fs.writeFile(
+      path.resolve(BunPM.cwd, "package.json"),
+      JSON.stringify(
+        {
+          packageManager: "bun",
+        },
+        null,
+        2
+      )
+    );
   }
 
   static install(pkg: string) {

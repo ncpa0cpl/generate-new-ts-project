@@ -1,41 +1,43 @@
-import { Argument } from "clify.js";
+import { defineOption } from "clify.js";
 import { ModuleController } from "./main-action/module-controller";
 
-export const PackageManager = Argument.define({
-  flagChar: "-p",
-  keyword: "--package-manager",
-  dataType: "string",
+export const PackageManager = defineOption({
+  char: "p",
+  name: "package-manager",
+  type: "string",
   default: "yarn",
-  require: true,
+  required: true,
   description:
     "Package manager used to install dependencies. (yarn, bun or npm)",
+  validate(value) {
+    if (!["yarn", "bun", "npm"].includes(value)) {
+      return {
+        expected: "yarn | bun | npm",
+        received: value,
+      };
+    }
+    return "ok";
+  },
 });
 
-export const ProjectName = Argument.define({
-  flagChar: "-n",
-  keyword: "--name",
-  dataType: "string",
-  require: true,
+export const ProjectName = defineOption({
+  char: "n",
+  name: "name",
+  type: "string",
+  required: true,
   description: "The name of the project.",
 });
 
-export const OutputDir = Argument.define({
-  flagChar: "-o",
-  keyword: "--output-dir",
-  dataType: "string",
-  description: "Path to the directory in which the Project should be located.",
-});
-
-export const AuthorName = Argument.define({
-  flagChar: "-a",
-  keyword: "--author",
-  dataType: "string",
+export const AuthorName = defineOption({
+  char: "a",
+  name: "author",
+  type: "string",
   description: "Name of the author.",
 });
 
-export const Modules = Argument.define({
-  flagChar: "-m",
-  keyword: "--modules",
-  dataType: "string",
+export const Modules = defineOption({
+  char: "m",
+  name: "modules",
+  type: "string",
   description: `Comma separated list of modules. Available modules: ${ModuleController.listAvailableModules()}`,
 });

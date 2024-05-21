@@ -1,4 +1,6 @@
 import child_process from "child_process";
+import fs from "fs/promises";
+import path from "path";
 import type { PackageManager } from "./types";
 
 export const Yarn: PackageManager = class Yarn {
@@ -11,8 +13,8 @@ export const Yarn: PackageManager = class Yarn {
 
   private static async execute(command: string): Promise<string> {
     return new Promise<string>((resolve, reject) => {
-      child_process.exec(command, { cwd: Yarn.cwd }, (err, stdout) => {
-        if (err) return reject(err);
+      child_process.exec(command, { cwd: Yarn.cwd }, (err, stdout, stderr) => {
+        if (err) return reject(new Error(stderr));
         return resolve(stdout);
       });
     });
@@ -22,7 +24,7 @@ export const Yarn: PackageManager = class Yarn {
     if (Yarn.version) return Yarn.version;
 
     this.version = await Yarn.run("-v");
-    return this.version;
+    return this.version.trim();
   }
 
   static async changeVersion(version: string) {
@@ -41,6 +43,17 @@ export const Yarn: PackageManager = class Yarn {
 
   static async init() {
     const version = await Yarn.getVersion();
+
+    await fs.writeFile(
+      path.resolve(Yarn.cwd, "package.json"),
+      JSON.stringify(
+        {
+          packageManager: `yarn@${version}`,
+        },
+        null,
+        2
+      )
+    );
 
     if (version.startsWith("3")) {
       return Yarn.run("init");

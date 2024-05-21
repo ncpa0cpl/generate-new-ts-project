@@ -1,4 +1,4 @@
-import type { ConfigFileContext } from "../utils/config-file";
+import type { ConfigFileContext } from "../../utils/config-file";
 
 export const getLicense = (ctx: ConfigFileContext) => {
   return `MIT License

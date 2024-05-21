@@ -11,17 +11,26 @@ export const Npm: PackageManager = class Npm {
 
   private static cwd: string = process.cwd();
 
-  private static execute(command: string): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      child_process.exec(command, { cwd: Npm.cwd }, (err) => {
-        if (err) return reject(err);
-        return resolve();
+  private static execute(command: string): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      child_process.exec(command, { cwd: Npm.cwd }, (err, stdout, stderr) => {
+        if (err) return reject(new Error(stderr));
+        return resolve(stdout);
       });
     });
   }
 
   static async init() {
-    // no-op
+    await fs.writeFile(
+      path.resolve(Npm.cwd, "package.json"),
+      JSON.stringify(
+        {
+          packageManager: "npm",
+        },
+        null,
+        2
+      )
+    );
   }
 
   static async changeVersion() {

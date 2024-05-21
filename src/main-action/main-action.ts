@@ -1,4 +1,4 @@
-import type { Argument } from "clify.js";
+import type { Option } from "clify.js";
 import fs from "fs/promises";
 import path from "path";
 import { html, Output } from "termx-markup";
@@ -10,15 +10,15 @@ import { ModuleController } from "./module-controller";
 import { updatePackageFile } from "./update-package-file";
 
 export type MainActionParams = {
-  projectName: Argument<"string", true>;
-  authorName: Argument<"string", false>;
-  packageManager: Argument<"string", true>;
-  cwd: Argument<"string", false>;
-  modules: Argument<"string", false>;
+  projectName: Option<"string", true>;
+  authorName: Option<"string", false>;
+  packageManager: Option<"string", true>;
+  modules: Option<"string", false>;
+  rootDir: string;
 };
 
 export const mainAction = async (params: MainActionParams) => {
-  const { projectName, authorName, cwd, packageManager, modules } = params;
+  const { projectName, authorName, rootDir, packageManager, modules } = params;
 
   const PM = getPackageManager(packageManager.value);
   const moduleController = new ModuleController({
@@ -27,8 +27,6 @@ export const mainAction = async (params: MainActionParams) => {
     projectName: projectName.value,
     authorName: authorName.value,
   });
-
-  const rootDir = cwd.value ?? process.cwd();
 
   const projectDir = path.resolve(rootDir, projectName.value);
 
