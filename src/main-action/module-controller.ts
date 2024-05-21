@@ -8,6 +8,7 @@ import type { Module, ModuleContext } from "../modules/interface";
 import { JestModule } from "../modules/jest.module";
 import { MainModule } from "../modules/main.module";
 import { NodepackModule } from "../modules/nodepack.module";
+import { OxlintModule } from "../modules/oxlint.module";
 import { PrettierModule } from "../modules/prettier.module";
 import { TscBuilderModule } from "../modules/tsc-builder.module";
 import { VitestModule } from "../modules/vitest.module";
@@ -27,16 +28,22 @@ const mainMod = new MainModule();
 
 export class ModuleController {
   private static Modules = [
+    // build tools
+    new EsbuildModule(),
+    new TscBuilderModule(),
+    new NodepackModule(),
+    // linting
+    new EslintModule(),
+    new OxlintModule(),
+    // formatting
+    new PrettierModule(),
+    new DprintModule(),
+    // testing
     new JestModule(),
     new VitestModule(),
     new GestModule(),
+    // package managers
     new YarnBerryModule(),
-    new TscBuilderModule(),
-    new NodepackModule(),
-    new EsbuildModule(),
-    new EslintModule(),
-    new PrettierModule(),
-    new DprintModule(),
   ];
 
   public static listAvailableModules() {
