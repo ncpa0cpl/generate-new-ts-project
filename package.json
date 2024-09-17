@@ -15,7 +15,7 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "clify.js": "^1.0.0-beta.1",
+    "clify.js": "^1.0.0-beta.4",
     "termx-markup": "^1.1.0"
   },
   "scripts": {

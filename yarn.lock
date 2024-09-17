@@ -414,10 +414,10 @@ character-entities@^2.0.0:
   resolved "https://registry.yarnpkg.com/character-entities/-/character-entities-2.0.2.tgz#2d09c2e72cd9523076ccb21157dff66ad43fcc22"
   integrity sha512-shx7oQ0Awen/BRIdkjkvz54PnEEI/EjwXDSIZp86/KKdbafHh1Df/RYGBhn4hbe2+uKC9FnT5UCEdyPz3ai9hQ==
 
-clify.js@^1.0.0-beta.1:
-  version "1.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/clify.js/-/clify.js-1.0.0-beta.1.tgz#1c8ba50b1684a659c754d253840fb58d86f5017b"
-  integrity sha512-nWLFOFdu0+ascUH2BlRISPRxp9VpkediHi/o3vSlWL4uGRVxQs6wxuaLAN/3FoRQc/ZnecJx8wgjYAbqMD8Q7w==
+clify.js@^1.0.0-beta.4:
+  version "1.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/clify.js/-/clify.js-1.0.0-beta.4.tgz#cd4b4daac1e45ee25c010efaa593a3e21296dc90"
+  integrity sha512-2Muy4mrgI49h+JrWpH3FRM3j0Xmu/5xr1F1g4yewRYa5s3OJwpK2QX501wTl0/BdmYgZVEgCHtzNJZRdyzql6g==
   dependencies:
     minimist "^1.2.8"
 

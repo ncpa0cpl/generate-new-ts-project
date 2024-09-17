@@ -33,7 +33,12 @@ export class Dependency {
 
   private getNameForGithubRegister() {
     let name: string;
-    if (Dependency.pmType === "yarn" && Dependency.pmVersion.startsWith("3")) {
+    if (Dependency.pmType === "bun") {
+      name = `git@github.com:${this.options.user!}/${this.name!}.git`;
+    } else if (
+      Dependency.pmType === "yarn" &&
+      Dependency.pmVersion.startsWith("3")
+    ) {
       name = `${this.name!}@${this.options.user!}/${this.name}`;
     } else {
       name = `git+https://github.com/${this.options.user!}/${this.name}`;

@@ -44,7 +44,7 @@ export class MainModule implements Module {
       new Dependency("git-hook-tasks", {
         register: "github",
         user: "ncpa0cpl",
-        version: "0.0.1",
+        version: "4215793",
       }),
     ];
 

@@ -1,6 +1,6 @@
 /// <reference types="bun-types" />
 
-import * as clify from "clify.js";
+import clify from "clify.js";
 import path from "path";
 import { AuthorName, Modules, PackageManager, ProjectName } from "./arguments";
 import { mainAction } from "./main-action/main-action";
@@ -20,14 +20,21 @@ const program = clify.configure((cmd) => {
     const modules = main.option(Modules);
     const outDir = main.input();
 
-    return () =>
-      mainAction({
-        rootDir: path.resolve(outDir.get()),
+    return () => {
+      const od = outDir.get();
+
+      if (!od) {
+        throw new Error("Output directory not provided.");
+      }
+
+      return mainAction({
+        rootDir: path.resolve(od),
         packageManager,
         projectName,
         authorName,
         modules,
       });
+    };
   });
 });
 
